@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SLADS Digital Records Management System - Login</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#eef3f8;min-height:100vh;display:flex;align-items:center;justify-content:center}
+.login-box{width:min(92%,420px);background:white;padding:32px;border-radius:16px;box-shadow:0 8px 30px rgba(0,0,0,.15)}
+h1{margin:0 0 8px;text-align:center;color:#17365d;font-size:24px}
+.subtitle{text-align:center;color:#666;margin-bottom:25px}
+label{display:block;margin:14px 0 6px;font-weight:bold;color:#333}
+input{width:100%;padding:13px;border:1px solid #bbb;border-radius:8px;font-size:16px}
+button{width:100%;margin-top:22px;padding:13px;border:0;border-radius:8px;background:#17365d;color:white;font-size:16px;font-weight:bold;cursor:pointer}
+button:hover{background:#0f2948}
+#error{color:#c62828;text-align:center;margin-top:14px;display:none}
+#system{display:none;width:min(94%,900px);background:white;border-radius:16px;padding:30px;box-shadow:0 8px 30px rgba(0,0,0,.15)}
+.header{display:flex;justify-content:space-between;align-items:center;gap:15px;border-bottom:1px solid #ddd;padding-bottom:18px}
+.header h2{margin:0;color:#17365d}
+.logout{width:auto;margin:0;padding:10px 18px;background:#b3261e}
+.card{margin-top:25px;padding:22px;background:#f5f8fb;border-radius:12px}
+</style>
+</head>
+<body>
+
+<div class="login-box" id="login">
+  <h1>SLADS Digital Records Management System</h1>
+  <div class="subtitle">Please login to continue</div>
+
+  <form id="loginForm">
+    <label for="username">Username</label>
+    <input id="username" type="text" autocomplete="username" required>
+
+    <label for="password">Password</label>
+    <input id="password" type="password" autocomplete="current-password" required>
+
+    <button type="submit">LOGIN</button>
+    <div id="error">Invalid username or password.</div>
+  </form>
+</div>
+
+<div id="system">
+  <div class="header">
+    <h2>SLADS Digital Records Management System</h2>
+    <button class="logout" onclick="logout()">LOG OUT</button>
+  </div>
+  <div class="card">
+    <h3>Welcome to the Digital Records Management System</h3>
+    <p>You have successfully logged in.</p>
+    <p>You can now connect this login page to your existing system/dashboard.</p>
+  </div>
+</div>
+
+<script>
+const USERNAME = "Slads";
+const PASSWORD = "Slads@123";
+
+function showSystem(){
+  document.getElementById("login").style.display="none";
+  document.getElementById("system").style.display="block";
+}
+
+function logout(){
+  sessionStorage.removeItem("sladsLoggedIn");
+  document.getElementById("system").style.display="none";
+  document.getElementById("login").style.display="block";
+  document.getElementById("password").value="";
+}
+
+if(sessionStorage.getItem("sladsLoggedIn")==="true") showSystem();
+
+document.getElementById("loginForm").addEventListener("submit", function(e){
+  e.preventDefault();
+  const u=document.getElementById("username").value.trim();
+  const p=document.getElementById("password").value;
+  if(u===USERNAME && p===PASSWORD){
+    sessionStorage.setItem("sladsLoggedIn","true");
+    document.getElementById("error").style.display="none";
+    showSystem();
+  }else{
+    document.getElementById("error").style.display="block";
+  }
+});
+</script>
+</body>
+</html>
